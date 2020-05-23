@@ -77,7 +77,7 @@ public class TextEditor extends JFrame {
             } finally {
                 fileChooser.setVisible(false);
             }
-            /* OPEN TESTING BLOCK
+            /* OPEN TESTING BLOCK - Set the instance variable selectedFile to the testing text file
             String loadedFileContent = null;
             try {
                 loadedFileContent = new String(Files.readAllBytes(selectedFile.toPath()));
@@ -91,8 +91,6 @@ public class TextEditor extends JFrame {
         String openIconFilePath = Objects.requireNonNull(this.getClass().getClassLoader().getResource("OpenIcon.jpeg")).getFile();
         openButton.setIcon(new ImageIcon(openIconFilePath));
         openButton.setBorder(BorderFactory.createEmptyBorder());
-        openButton.setContentAreaFilled(false);
-        openButton.setFocusable(false);
         c.gridx = 0;
         mainPanel.add(openButton, c);
 
@@ -117,8 +115,6 @@ public class TextEditor extends JFrame {
         String saveIconFilePath = Objects.requireNonNull(this.getClass().getClassLoader().getResource("SaveIcon.jpg")).getFile();
         saveButton.setIcon(new ImageIcon(saveIconFilePath));
         saveButton.setBorder(BorderFactory.createEmptyBorder());
-        saveButton.setContentAreaFilled(false);
-        saveButton.setFocusable(false);
         c.gridx = 1;
         mainPanel.add(saveButton, c);
 
@@ -170,8 +166,6 @@ public class TextEditor extends JFrame {
         String searchIconFilePath = Objects.requireNonNull(this.getClass().getClassLoader().getResource("SearchIcon.jpg")).getFile();
         searchButton.setIcon(new ImageIcon(searchIconFilePath));
         searchButton.setBorder(BorderFactory.createEmptyBorder());
-        searchButton.setContentAreaFilled(false);
-        searchButton.setFocusable(false);
         c.gridx = 3;
         c.weightx = 0.1; // All the components to the right of search bar have weightx of 0.1
         mainPanel.add(searchButton, c);
@@ -215,8 +209,6 @@ public class TextEditor extends JFrame {
         String previousIconFilePath = Objects.requireNonNull(this.getClass().getClassLoader().getResource("PreviousIcon.jpg")).getFile();
         previousButton.setIcon(new ImageIcon(previousIconFilePath));
         previousButton.setBorder(BorderFactory.createEmptyBorder());
-        previousButton.setContentAreaFilled(false);
-        previousButton.setFocusable(false);
         c.gridx = 4;
         mainPanel.add(previousButton, c);
 
@@ -244,8 +236,6 @@ public class TextEditor extends JFrame {
         String nextIconFilePath = Objects.requireNonNull(this.getClass().getClassLoader().getResource("NextIcon.jpg")).getFile();
         nextButton.setIcon(new ImageIcon(nextIconFilePath));
         nextButton.setBorder(BorderFactory.createEmptyBorder());
-        nextButton.setContentAreaFilled(false);
-        nextButton.setFocusable(false);
         c.gridx = 5;
         mainPanel.add(nextButton, c);
 
