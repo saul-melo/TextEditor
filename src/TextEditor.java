@@ -15,9 +15,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextEditor extends JFrame {
-    private File selectedFile; // Selected file accessed by open & save buttons
     private Matcher matcher; // Holds the current matcher object that powers the search features
     private final List<Integer> matchStartIndexes = new ArrayList<>(); // Tracks the start indexes of the matches traversed by nextMatch in order for previousMatch to work
     private boolean regexSelected; // Regex search can be toggled
@@ -68,8 +66,7 @@ public class TextEditor extends JFrame {
                 fileChooser.setCurrentDirectory(FileSystemView.getFileSystemView().getHomeDirectory());
                 fileChooser.setVisible(true);
                 if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) { // Selected element must be text-based file
-                    selectedFile = fileChooser.getSelectedFile();
-                    String loadedFileContent = new String(Files.readAllBytes(selectedFile.toPath())); // Create a string that contains all the text in the selected file
+                    String loadedFileContent = new String(Files.readAllBytes(fileChooser.getSelectedFile().toPath())); // Create a string that contains all the text in the selected file
                     textArea.replaceRange(loadedFileContent, 0, textArea.getText().length()); // Write the contents of the selected file to the textArea
                 }
             } catch (IOException ioException) {
@@ -77,15 +74,6 @@ public class TextEditor extends JFrame {
             } finally {
                 fileChooser.setVisible(false);
             }
-            /* OPEN TESTING BLOCK - Set the instance variable selectedFile to the testing text file
-            String loadedFileContent = null;
-            try {
-                loadedFileContent = new String(Files.readAllBytes(selectedFile.toPath()));
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-            textArea.replaceRange(loadedFileContent, 0, textArea.getText().length());
-            */
         });
         // Set openButton icon
         String openIconFilePath = Objects.requireNonNull(this.getClass().getClassLoader().getResource("OpenIcon.jpeg")).getFile();
@@ -101,9 +89,10 @@ public class TextEditor extends JFrame {
             try {
                 fileChooser.setVisible(true);
                 if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                    FileWriter writer = new FileWriter(selectedFile);
-                    writer.write(textArea.getText());
-                    writer.close();
+                        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                                new FileOutputStream(fileChooser.getSelectedFile().getName()), StandardCharsets.UTF_8))) {
+                            writer.write(textArea.getText());
+                        }
                 }
             } catch (IOException ioException) {
                 ioException.printStackTrace();
@@ -248,6 +237,8 @@ public class TextEditor extends JFrame {
 
         // * MENU BAR - Contains File & Search menus
         JMenuBar menuBar = new JMenuBar();
+        menuBar.getColorModel();
+        menuBar.setForeground(Color.white);
 
         // FILE MENU
         JMenu fileMenu = new JMenu("File");
